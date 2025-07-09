@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="icon"
+      href="resources/favicon.ico"
+      type="image/x-icon"
+      sizes="96x96"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <title>Multi-step Register Form | devChallenges.io</title>
+
+    <!--You are welcome to delete these styles or modify them in your own stylesheet -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 100vh;
+        min-height: 100vh;
+        background: #1a1d2b;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        font-family: 'Inter', Arial, sans-serif;
+        font-size: 1rem; /* 16px base */
+      }
+
+      .author-info {
+        font-size: 0.875rem; /* 14px tab text */
+        text-align: center;
+        margin-top: 16px;
+        color: rgb(55, 65, 81);
+        font-family: 'Inter', Arial, sans-serif;
+      }
+
+      .author-info a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- DISCLAIMER: This project is for educational purposes only. Do not use it to collect, store, or steal real user data. Always respect privacy and comply with data protection laws. -->
+    <!-- 
+
+    Register
+
+    Name
+
+    Enter your name
+
+    Email
+
+    Example@gmail.com
+
+    Continue
+
+    Step 1 of 3
+
+    Which topics you are interested in?
+
+    Software Development
+
+    User Experience
+    
+    Graphic Design
+
+    Step 2 of 3
+
+    Summary
+
+    Name: Emily Johnson
+    Email: emily@emilyjohnsonstl.com
+
+    Topics:
+    User Experience
+    Graphic Design
+
+    Step 3 of 3
+     -->
+
+    <div class="container">
+      <div class="register-card">
+        <form id="registerForm">
+          <!-- Step 1 -->
+          <div class="form-step active">
+            <h2>Register</h2>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required />
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Example@gmail.com" required />
+            <div style="display: flex; justify-content: center; width: 100%;">
+              <button type="button" class="btn next-btn">Continue</button>
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="form-step">
+            <h2>Which topics you are interested in?</h2>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="topics" value="Software Development" /> Software Development</label>
+              <label><input type="checkbox" name="topics" value="User Experience" /> User Experience</label>
+              <label><input type="checkbox" name="topics" value="Graphic Design" /> Graphic Design</label>
+            </div>
+            <div class="step-btns">
+              <button type="button" class="btn prev-btn">Back</button>
+              <button type="button" class="btn next-btn">Continue</button>
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="form-step">
+            <h2>Summary</h2>
+            <div class="summary">
+              <div><strong>Name:</strong> <span id="summaryName"></span></div>
+              <div><strong>Email:</strong> <span id="summaryEmail"></span></div>
+              <div><strong>Topics:</strong>
+                <ul id="summaryTopics"></ul>
+              </div>
+            </div>
+            <div class="step-btns">
+              <button type="button" class="btn prev-btn">Back</button>
+              <button type="submit" class="btn submit-btn">Submit</button>
+            </div>
+          </div>
+        </form>
+        <div class="step-indicator">
+          <span class="step-label" id="stepLabel">Step 1 of 3</span>
+          <div class="dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="author-info">
+      Coded by <a href="#">Ayokanmi Adejola</a> | Challenge by
+      <a href="https://www.devchallenges.io?ref=challenge" target="_blank">devChallenges.io</a>.<br />
+      <span style="color:#bfc7d1; font-size:0.95em; display:block; margin-top:4px;">
+        Disclaimer: This project is for educational purposes only. Does not collect, store, or steal user data.
+      </span>
+    </div>
+    <script>
+      const steps = document.querySelectorAll('.form-step');
+      const nextBtns = document.querySelectorAll('.next-btn');
+      const prevBtns = document.querySelectorAll('.prev-btn');
+      const dots = document.querySelectorAll('.dot');
+      const stepLabel = document.getElementById('stepLabel');
+      const form = document.getElementById('registerForm');
+      let currentStep = 0;
+
+      function showStep(step) {
+        steps.forEach((s, i) => {
+          s.classList.toggle('active', i === step);
+        });
+        dots.forEach((d, i) => {
+          d.classList.toggle('active', i === step);
+        });
+        stepLabel.textContent = `Step ${step + 1} of 3`;
+      }
+
+      nextBtns.forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+          if (currentStep === 0) {
+            // Validate step 1
+            const name = form.name.value.trim();
+            const email = form.email.value.trim();
+            if (!name || !email) {
+              alert('Please fill in all fields.');
+              return;
+            }
+          }
+          if (currentStep === 1) {
+            // No required validation for topics
+            // Prepare summary
+            document.getElementById('summaryName').textContent = form.name.value;
+            document.getElementById('summaryEmail').textContent = form.email.value;
+            const topics = Array.from(form.querySelectorAll('input[name="topics"]:checked')).map(cb => cb.value);
+            const topicsList = document.getElementById('summaryTopics');
+            topicsList.innerHTML = '';
+            topics.forEach(t => {
+              const li = document.createElement('li');
+              li.textContent = t;
+              topicsList.appendChild(li);
+            });
+          }
+          if (currentStep < 2) {
+            currentStep++;
+            showStep(currentStep);
+          }
+        });
+      });
+
+      prevBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+          }
+        });
+      });
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        alert('Registration submitted!');
+        form.reset();
+        currentStep = 0;
+        showStep(currentStep);
+      });
+
+      showStep(currentStep);
+    </script>
+    <style>
+      body {
+        min-height: 100vh;
+        background: #1a1d2b;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        font-family: 'Inter', Arial, sans-serif;
+        font-size: 1rem; /* 16px base */
+      }
+      .container {
+        width: 100vw;
+        height: 100vh;
+        max-width: 1600px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #1a1d2b;
+      }
+      .register-card {
+        background: #23263a;
+        border-radius: 16px;
+        box-shadow: 0 8px 48px 0 rgba(120, 63, 255, 0.28), 0 2px 16px 0 rgba(0,0,0,0.18);
+        border: 3px solid #353a50;
+        padding: 48px 40px 40px 40px;
+        width: 420px;
+        max-width: 90vw;
+        position: relative;
+        z-index: 2;
+      }
+      .register-card h2 {
+        color: #fff;
+        font-size: 1.25rem; /* 20px heading */
+        font-weight: 600;
+        margin-bottom: 32px;
+        letter-spacing: -0.01em;
+      }
+      label {
+        color: #bfc7d1;
+        font-size: 0.75rem; /* 12px label */
+        margin-bottom: 8px;
+        display: block;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+      input[type="text"],
+      input[type="email"] {
+        width: 100%;
+        padding: 14px 18px;
+        border-radius: 8px;
+        border: 1.5px solid #353a50;
+        background: #23263a;
+        color: #fff;
+        margin-bottom: 22px;
+        font-size: 1rem; /* 16px body */
+        outline: none;
+        transition: border 0.2s;
+        font-family: 'Inter', Arial, sans-serif;
+      }
+      input[type="text"]:focus,
+      input[type="email"]:focus {
+        border: 1.5px solid #7c3aed;
+      }
+      .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .checkbox-group label {
+        display: flex;
+        align-items: center;
+        color: #bfc7d1;
+        font-size: 1rem; /* 16px body */
+        cursor: pointer;
+        font-family: 'Inter', Arial, sans-serif;
+      }
+      .checkbox-group input[type="checkbox"] {
+        accent-color: #7c3aed;
+        margin-right: 10px;
+        width: 18px;
+        height: 18px;
+      }
+      .btn {
+        background: linear-gradient(90deg, #7c3aed 0%, #a78bfa 100%);
+        color: #fff;
+        border: none;
+        border-radius: 24px;
+        padding: 14px 0;
+        width: 140px;
+        font-size: 0.875rem; /* 14px tab text */
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 16px;
+        transition: background 0.2s;
+        box-shadow: 0 2px 8px 0 rgba(120, 63, 255, 0.10);
+        font-family: 'Inter', Arial, sans-serif;
+      }
+      .btn:active {
+        background: linear-gradient(90deg, #6d28d9 0%, #a78bfa 100%);
+      }
+      .step-btns {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .form-step {
+        display: none;
+        flex-direction: column;
+      }
+      .form-step.active {
+        display: flex;
+      }
+      .step-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 24px;
+      }
+      .step-label {
+        color: #bfc7d1;
+        font-size: 0.875rem; /* 14px tab text */
+        margin-bottom: 12px;
+        font-family: 'Inter', Arial, sans-serif;
+      }
+      .dots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #353a50;
+        transition: background 0.2s;
+      }
+      .dot.active {
+        background: linear-gradient(90deg, #7c3aed 0%, #a78bfa 100%);
+      }
+      .summary {
+        color: #fff;
+        font-size: 1rem; /* 16px body */
+        margin-bottom: 24px;
+        font-family: 'Inter', Arial, sans-serif;
+      }
+      .summary ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      @media (max-width: 600px) {
+        .register-card {
+          width: 95vw;
+          min-width: unset;
+          padding: 24px 8px 16px 8px;
+        }
+      }
+    </style>
+  </body>
+</html>
