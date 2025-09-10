@@ -1,5 +1,5 @@
 
-# Multi-step Register Form
+# Multi-step Register Form | devChallenges.io
 
 A modern, responsive multi-step registration form built with HTML, CSS, and JavaScript. This project is a solution to the devChallenges.io Multi-step Register Form challenge.
 
@@ -16,7 +16,9 @@ A modern, responsive multi-step registration form built with HTML, CSS, and Java
 - Accessible and keyboard-friendly navigation
 - Clean, maintainable code structure
 
-
+| Desktop | Tablet | Mobile |
+|---------|--------|--------|
+| ![Desktop](./design/Desktop_1350px-1.jpg) | ![Tablet](./design/Tablet_1024px-1.jpg) | ![Mobile](./design/Mobile_412px-1.jpg) |
 
 ## Technologies Used
 
@@ -51,14 +53,6 @@ A modern, responsive multi-step registration form built with HTML, CSS, and Java
 - To adjust the form steps or add fields, modify the form markup and related JavaScript.
 - Colors, fonts, and spacing can be tweaked in the `<style>` section of `index.html`.
 
-## Screenshots
-
-Here are some screenshots of the form in action:
-
-| Desktop | Tablet | Mobile |
-|---------|--------|--------|
-| ![Desktop](./design/Desktop_1350px-1.jpg) | ![Tablet](./design/Tablet_1024px-1.jpg) | ![Mobile](./design/Mobile_412px-1.jpg) |
-
 ## Accessibility
 
 This project follows accessibility best practices:
@@ -66,9 +60,3 @@ This project follows accessibility best practices:
 - Keyboard navigation support
 - Sufficient color contrast
 - Focus indicators for interactive elements
-
-
-## Author
-
-- Challenge by [devChallenges.io](https://devchallenges.io/)
-- Coded by Ayokanmi Adejola
